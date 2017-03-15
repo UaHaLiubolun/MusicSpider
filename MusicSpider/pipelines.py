@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from scrapy.conf import settings
 from items import typeItem
-from items import playListItem
+from items import playListItem, detailItem
 from pymongo import MongoClient
 
 class MusicspiderPipeline(object):
@@ -16,29 +16,42 @@ class MusicspiderPipeline(object):
         port = settings['MONGODB_PORT']
         db_name = settings['MONGODB_DB']
         client = MongoClient(host, port)
-        tdb = client[db_name]
-        self.post = tdb[db_name]
+        self.tdb = client["music"]
+        # self.post = tdb['demoOne']
 
 
     def process_item(self, item, spider):
         if isinstance(item, typeItem):
             try:
                 type_info = dict(item)
-                if self.post.find_one({'type':item['type']}):
+                post = self.tdb['demo']
+                if post.find_one({'type':item['type']}):
                     pass
                 else:
-                    if self.post.insert(type_info):
+                    if post.insert(type_info):
                         print 'ssss'
             except Exception:
                 print 'failed'
         elif isinstance(item, playListItem):
             try:
                 list_info = dict(item)
-                list_id = self.post.find_one({'list_id': item['list_id']})
+                post = self.tdb['play_list']
+                list_id = post.find_one({'list_id': item['list_id']})
                 if list_id:
-                    self.post.update({"list_id": list_id}, list_info)
+                    post.update({"list_id": list_id}, list_info)
                 else:
-                    self.post.insert(list_info)
+                    post.insert(list_info)
+            except Exception:
+                pass
+        elif isinstance(item, detailItem):
+            try:
+                music_info = dict(item)
+                post = self.tdb['music_detail']
+                music_id = post.find_one({'music_id': item['music_id']})
+                if music_id:
+                    post.update(({"music_id": music_id}, music_info))
+                else:
+                    post.insert(music_info)
             except Exception:
                 pass
         return item
