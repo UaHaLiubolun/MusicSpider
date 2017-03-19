@@ -24,13 +24,16 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 
+CONCURRENT_ITEMS = 1000
+CONCURRENT_REQUESTS = 160
+
 ITEM_PIPELINES = {
    'MusicSpider.pipelines.MusicspiderPipeline': 300,
 }
 
 SCHEDULER = 'scrapy_redis.scheduler.Scheduler' #scrapy_redis 调度器
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"  #去重
-SCHEDULER_PERSIST = True       #不清理Redis队列
+# SCHEDULER_PERSIST = True       #不清理Redis队列
 SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderQueue"    #队列
 
 REDIS_HOST = 'localhost'

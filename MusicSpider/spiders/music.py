@@ -1,6 +1,5 @@
 #coding=utf-8
 import scrapy
-import re
 import demjson
 from ..items import playListItem, detailItem
 from scrapy.selector import Selector
@@ -24,13 +23,14 @@ class MusicSpider(RedisSpider):
         for tmp in type_list:
             try:
                 true_url = url + tmp
-                # true_url = 'http://music.163.com/playlist?id=625206396'
                 yield scrapy.Request(url=true_url, method="GET",
                                      callback=self.list_parse, meta={"cat": tmp})
-                # yield scrapy.Request(url=true_url, method="GET", callback=self.play_list_parse,
-                #                      meta={"cat": "欧美", "id": "625206396"})
+
             except Exception:
                 pass
+
+    def test_parse(self, response):
+        print response.body
 
     def list_parse(self, response):
         selector = Selector(text=response.body)
@@ -61,24 +61,24 @@ class MusicSpider(RedisSpider):
         item['list_creator'] = selector.xpath("//span[@class='name']/a/text()").extract_first()
         item['list_creator_id'] = selector.xpath("//span[@class='name']/a/@href").extract_first()
         item['type'] = response.meta['cat']
-        urls = selector.xpath("//ul[@class='f-hide']/li/a/@href").extract()
-        for url in urls:
-            yield scrapy.Request(url=start_url + url, method="GET", callback=self.detail_parse)
+        # urls = selector.xpath("//ul[@class='f-hide']/li/a/@href").extract()
+        # for url in urls:
+        #     yield scrapy.Request(url=start_url + url, method="GET", callback=self.detail_parse)
         yield item
 
     def detail_parse(self, response):
         selector = Selector(text=response.body)
         id = selector.xpath("//div[@id='content-operation']/@data-rid").extract_first()
         detail = validate.Validate(str(id))
-        json = demjson.decode(detail.get_music_json())
-        if json['total'] > 10000:
+        info = demjson.decode(detail.get_music_json())
+        if info['total'] > 10000:
             item = detailItem()
             item['music_id'] = id
             item['music_name'] = selector.xpath("//em[@class='f-ff2']/text()").extract_first()
             item['music_album'] = selector.xpath("//p[@class='des s-fc4']/a/text()").extract_first()
             item['music_artist'] = selector.xpath("//p[@class='des s-fc4']/span/@title").extract_first()
-            item['music_comment_num'] = int(json['total'])
-            item['music_comment'] = json['hotComments']
+            item['music_comment_num'] = int(info['total'])
+            item['music_comment'] = info['hotComments']
             yield item
 
 
