@@ -17,15 +17,15 @@ class PersonSpider(RedisSpider):
 
     def start_requests(self):
         yield Request(url="http://music.163.com/user/home?id=1", callback=self.parse, meta={"id": 1})
-        # yield Request(url="http://music.163.com/user/home?id=1000", callback=self.parse, meta={"id": 1000})
-        # yield Request(url="http://music.163.com/user/home?id=10000", callback=self.parse, meta={"id": 10000})
-        # yield Request(url="http://music.163.com/user/home?id=100000", callback=self.parse, meta={"id": 100000})
-        # yield Request(url="http://music.163.com/user/home?id=1000000", callback=self.parse, meta={"id": 1000000})
-        # yield Request(url="http://music.163.com/user/home?id=10000000", callback=self.parse, meta={"id": 10000000})
-        # yield Request(url="http://music.163.com/user/home?id=100000000", callback=self.parse, meta={"id": 100000000})
-        # yield Request(url="http://music.163.com/user/home?id=5000000", callback=self.parse, meta={"id": 5000000})
-        # yield Request(url="http://music.163.com/user/home?id=500000000", callback=self.parse, meta={"id": 500000000})
-        # yield Request(url="http://music.163.com/user/home?id=1000000000", callback=self.parse, meta={"id": 1000000000})
+        yield Request(url="http://music.163.com/user/home?id=1000", callback=self.parse, meta={"id": 1000})
+        yield Request(url="http://music.163.com/user/home?id=10000", callback=self.parse, meta={"id": 10000})
+        yield Request(url="http://music.163.com/user/home?id=100000", callback=self.parse, meta={"id": 100000})
+        yield Request(url="http://music.163.com/user/home?id=1000000", callback=self.parse, meta={"id": 1000000})
+        yield Request(url="http://music.163.com/user/home?id=10000000", callback=self.parse, meta={"id": 10000000})
+        yield Request(url="http://music.163.com/user/home?id=100000000", callback=self.parse, meta={"id": 100000000})
+        yield Request(url="http://music.163.com/user/home?id=5000000", callback=self.parse, meta={"id": 5000000})
+        yield Request(url="http://music.163.com/user/home?id=500000000", callback=self.parse, meta={"id": 500000000})
+        yield Request(url="http://music.163.com/user/home?id=1000000000", callback=self.parse, meta={"id": 1000000000})
 
 
     def parse(self, response):
@@ -39,7 +39,7 @@ class PersonSpider(RedisSpider):
         name = selector.xpath("//span[@class='tit f-ff2 s-fc0 f-thide']/text()").extract_first()
 
         id = response.meta["id"] + 1
-        # yield Request(url="http://music.163.com/user/home?id=" + str(id), callback=self.parse, meta={"id": id})
+        yield Request(url="http://music.163.com/user/home?id=" + str(id), callback=self.parse, meta={"id": id})
         if name != None:
             id = response.meta["id"]
             item = personItem()
@@ -49,16 +49,15 @@ class PersonSpider(RedisSpider):
                 age = time.gmtime(int(age))
                 age = time.strftime("%Y-%m-%d %H:%M:%S", age)
                 item['person_age'] = age
-                print age
             if address != None:
                 address = address.replace(" ", "")
                 item['person_address'] = address.split("：")[1].split("-")
             if count != None:
                 music_count = re.sub('\D', '', count)
-                item['person_music_play'] = music_count
-            item['person_follow'] = follow
-            item['person_fan'] = fans
-            item['person_event'] = event
+                item['person_music_play'] = int(music_count)
+            item['person_follow'] = int(follow)
+            item['person_fan'] = int(fans)
+            item['person_event'] = int(event)
             item['person_id'] = id
             yield item
 
