@@ -6,7 +6,7 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from scrapy.conf import settings
 from items import typeItem
-from items import playListItem, detailItem
+from items import playListItem, detailItem, personItem
 from pymongo import MongoClient
 
 class MusicspiderPipeline(object):
@@ -38,7 +38,7 @@ class MusicspiderPipeline(object):
                 post = self.tdb['play_list']
                 list_id = post.find_one({'list_id': item['list_id']})
                 if list_id:
-                    post.update({"list_id": list_id}, list_info)
+                    post.update({"list_id": list_id['list_id']}, list_info)
                 else:
                     post.insert(list_info)
             except Exception:
@@ -49,9 +49,23 @@ class MusicspiderPipeline(object):
                 post = self.tdb['music_detail']
                 music_id = post.find_one({'music_id': item['music_id']})
                 if music_id:
-                    post.update(({"music_id": music_id}, music_info))
+                    post.update({"music_id": music_id['music_id']}, music_info)
                 else:
                     post.insert(music_info)
+            except Exception:
+                    pass
+        elif isinstance(item, personItem):
+            try:
+                person_info = dict(item)
+                post = self.tdb['person']
+                person_id = post.find_one({'person_id': item['person_id']})
+                if person_id:
+                    try:
+                        post.update({"person_id": person_id['person_id']}, person_info)
+                    except Exception:
+                        pass
+                else:
+                    post.insert(person_info)
             except Exception:
                 pass
         return item

@@ -38,3 +38,15 @@ class detailItem(scrapy.Item):
     music_artist = scrapy.Field()
     music_comment_num = scrapy.Field()
     music_comment = scrapy.Field()
+
+class personItem(scrapy.Item):
+    _id = scrapy.Field()
+    person_id = scrapy.Field()
+    person_name = scrapy.Field()
+    person_fan = scrapy.Field()
+    person_follow = scrapy.Field()
+    person_music_play = scrapy.Field()
+    person_age = scrapy.Field()
+    person_address = scrapy.Field()
+    person_event = scrapy.Field()
+
