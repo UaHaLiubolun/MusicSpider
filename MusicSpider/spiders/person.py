@@ -17,15 +17,31 @@ class PersonSpider(RedisSpider):
 
     def start_requests(self):
         yield Request(url="http://music.163.com/user/home?id=1", callback=self.parse, meta={"id": 1})
-        yield Request(url="http://music.163.com/user/home?id=1000", callback=self.parse, meta={"id": 1000})
-        yield Request(url="http://music.163.com/user/home?id=10000", callback=self.parse, meta={"id": 10000})
-        yield Request(url="http://music.163.com/user/home?id=100000", callback=self.parse, meta={"id": 100000})
         yield Request(url="http://music.163.com/user/home?id=1000000", callback=self.parse, meta={"id": 1000000})
-        yield Request(url="http://music.163.com/user/home?id=10000000", callback=self.parse, meta={"id": 10000000})
-        yield Request(url="http://music.163.com/user/home?id=100000000", callback=self.parse, meta={"id": 100000000})
         yield Request(url="http://music.163.com/user/home?id=5000000", callback=self.parse, meta={"id": 5000000})
+        yield Request(url="http://music.163.com/user/home?id=10000000", callback=self.parse, meta={"id": 10000000})
+        yield Request(url="http://music.163.com/user/home?id=15000000", callback=self.parse, meta={"id": 1500000})
+        yield Request(url="http://music.163.com/user/home?id=20000000", callback=self.parse, meta={"id": 20000000})
+        yield Request(url="http://music.163.com/user/home?id=25000000", callback=self.parse, meta={"id": 25000000})
+        yield Request(url="http://music.163.com/user/home?id=30000000", callback=self.parse, meta={"id": 30000000})
+        yield Request(url="http://music.163.com/user/home?id=40000000", callback=self.parse, meta={"id": 40000000})
+        yield Request(url="http://music.163.com/user/home?id=50000000", callback=self.parse, meta={"id": 50000000})
+        yield Request(url="http://music.163.com/user/home?id=60000000", callback=self.parse, meta={"id": 60000000})
+        yield Request(url="http://music.163.com/user/home?id=70000000", callback=self.parse, meta={"id": 70000000})
+        yield Request(url="http://music.163.com/user/home?id=80000000", callback=self.parse, meta={"id": 80000000})
+        yield Request(url="http://music.163.com/user/home?id=90000000", callback=self.parse, meta={"id": 90000000})
+        yield Request(url="http://music.163.com/user/home?id=100000000", callback=self.parse, meta={"id": 100000000})
+        yield Request(url="http://music.163.com/user/home?id=150000000", callback=self.parse, meta={"id": 150000000})
+        yield Request(url="http://music.163.com/user/home?id=200000000", callback=self.parse, meta={"id": 200000000})
+        yield Request(url="http://music.163.com/user/home?id=300000000", callback=self.parse, meta={"id": 300000000})
+        yield Request(url="http://music.163.com/user/home?id=400000000", callback=self.parse, meta={"id": 400000000})
         yield Request(url="http://music.163.com/user/home?id=500000000", callback=self.parse, meta={"id": 500000000})
+        yield Request(url="http://music.163.com/user/home?id=600000000", callback=self.parse, meta={"id": 600000000})
+        yield Request(url="http://music.163.com/user/home?id=700000000", callback=self.parse, meta={"id": 700000000})
+        yield Request(url="http://music.163.com/user/home?id=800000000", callback=self.parse, meta={"id": 800000000})
+        yield Request(url="http://music.163.com/user/home?id=900000000", callback=self.parse, meta={"id": 900000000})
         yield Request(url="http://music.163.com/user/home?id=1000000000", callback=self.parse, meta={"id": 1000000000})
+
 
 
     def parse(self, response):
