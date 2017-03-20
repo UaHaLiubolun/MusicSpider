@@ -23,7 +23,7 @@ class playListItem(scrapy.Item):
     list_id = scrapy.Field()
     list_name = scrapy.Field()
     list_play = scrapy.Field()
-    list_comment = scrapy.Field()
+    # list_comment = scrapy.Field()
     list_collection = scrapy.Field()
     list_creator = scrapy.Field()
     list_creator_id = scrapy.Field()

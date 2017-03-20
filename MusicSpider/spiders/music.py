@@ -4,7 +4,7 @@ import demjson
 from ..items import playListItem, detailItem
 from scrapy.selector import Selector
 from scrapy_redis.spiders import RedisSpider
-from ..validate import validate
+#from ..validate import validate
 
 class MusicSpider(RedisSpider):
     name = 'music'
@@ -54,7 +54,7 @@ class MusicSpider(RedisSpider):
         selector = Selector(text=response.body)
         item['list_play'] = int(selector.xpath("//strong[@id='play-count']/text()").extract_first())
         item['list_collection'] = int(selector.xpath("//a[@class='u-btni u-btni-fav ']/@data-count").extract_first())
-        item['list_comment'] = int(selector.xpath("//span[@id='cnt_comment_count']/text()").extract_first())
+        # item['list_comment'] = int(selector.xpath("//span[@id='cnt_comment_count']/text()").extract_first())
         item['list_name'] = selector.xpath("//h2[@class='f-ff2 f-brk']/text()").extract_first()
         item['list_id'] = response.meta['id']
         item['list_tag'] = selector.xpath("//a[@class='u-tag']/i/text()").extract()
@@ -66,20 +66,20 @@ class MusicSpider(RedisSpider):
         #     yield scrapy.Request(url=start_url + url, method="GET", callback=self.detail_parse)
         yield item
 
-    def detail_parse(self, response):
-        selector = Selector(text=response.body)
-        id = selector.xpath("//div[@id='content-operation']/@data-rid").extract_first()
-        detail = validate.Validate(str(id))
-        info = demjson.decode(detail.get_music_json())
-        if info['total'] > 10000:
-            item = detailItem()
-            item['music_id'] = id
-            item['music_name'] = selector.xpath("//em[@class='f-ff2']/text()").extract_first()
-            item['music_album'] = selector.xpath("//p[@class='des s-fc4']/a/text()").extract_first()
-            item['music_artist'] = selector.xpath("//p[@class='des s-fc4']/span/@title").extract_first()
-            item['music_comment_num'] = int(info['total'])
-            item['music_comment'] = info['hotComments']
-            yield item
+ #   def detail_parse(self, response):
+  #      selector = Selector(text=response.body)
+   #     id = selector.xpath("//div[@id='content-operation']/@data-rid").extract_first()
+#        detail = validate.Validate(str(id))
+#        info = demjson.decode(detail.get_music_json())
+#        if info['total'] > 10000:
+#            item = detailItem()
+#            item['music_id'] = id
+#            item['music_name'] = selector.xpath("//em[@class='f-ff2']/text()").extract_first()
+#            item['music_album'] = selector.xpath("//p[@class='des s-fc4']/a/text()").extract_first()
+#            item['music_artist'] = selector.xpath("//p[@class='des s-fc4']/span/@title").extract_first()
+#            item['music_comment_num'] = int(info['total'])
+#            item['music_comment'] = info['hotComments']
+#            yield item
 
 
 
