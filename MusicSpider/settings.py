@@ -14,7 +14,7 @@ BOT_NAME = 'MusicSpider'
 SPIDER_MODULES = ['MusicSpider.spiders']
 NEWSPIDER_MODULE = 'MusicSpider.spiders'
 
-MONGODB_HOST = 'localhost'
+MONGODB_HOST = '121.42.205.238'
 MONGODB_PORT = 27017
 MONGODB_DB = 'music'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -33,10 +33,10 @@ ITEM_PIPELINES = {
 
 SCHEDULER = 'scrapy_redis.scheduler.Scheduler' #scrapy_redis 调度器
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"  #去重
-# SCHEDULER_PERSIST = True       #不清理Redis队列
+SCHEDULER_PERSIST = True       #不清理Redis队列
 SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderQueue"    #队列
 
-REDIS_HOST = 'localhost'
+REDIS_HOST = '121.42.205.238'
 REDIS_PORT = 6379
 
 
