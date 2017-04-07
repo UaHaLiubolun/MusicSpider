@@ -45,6 +45,7 @@ class MusicSpider(RedisSpider):
             list_id = selector.xpath("//li[" + str(i)
                                              + "]//a[@class='icon-play f-fr']/@data-res-id").extract_first()
             i = i + 1
+            # 歌单列表
             yield scrapy.Request(url=start_url+"/playlist?id="+list_id, method="GET", callback=self.play_list_parse,
                                  meta={"cat": response.meta['cat'], "id": list_id})
 
