@@ -15,6 +15,7 @@ SPIDER_MODULES = ['MusicSpider.spiders']
 NEWSPIDER_MODULE = 'MusicSpider.spiders'
 
 MONGODB_HOST = '121.42.205.238'
+# MONGODB_HOST = 'localhost'
 MONGODB_PORT = 27017
 MONGODB_DB = 'music'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -39,6 +40,7 @@ DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"  #去重
 SCHEDULER_QUEUE_CLASS = "scrapy_redis.queue.SpiderQueue"    #队列
 
 REDIS_HOST = '121.42.205.238'
+# REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 
 
